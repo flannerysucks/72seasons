@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 
 export default async function getPostText(): Promise<string> {
   const today = new Date();
@@ -7,7 +7,7 @@ export default async function getPostText(): Promise<string> {
   const filePath = '72seasonscalendar.txt';
 
   try {
-    const fileContent = await fs.promises.readFile(filePath, 'utf-8');
+    const fileContent = await fs.readFile(filePath, 'utf-8');
     const lines = fileContent.split('\n');
     
     for (const line of lines) {
@@ -18,7 +18,7 @@ export default async function getPostText(): Promise<string> {
       }
     }
     
-    return "No post found for today's date.";
+    throw new Error("No post found for today's date."); // Throw an error if no post is found
   } catch (error) {
     throw new Error(`Error reading file: ${error}`);
   }
